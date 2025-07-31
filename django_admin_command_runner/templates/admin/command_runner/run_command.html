@@ -1,21 +1,31 @@
 {% extends "admin/base_site.html" %}
+{% load i18n static %}
+
 {% block content %}
-<h1>🛠️ Run a Management Command</h1>
-<form method="post">{% csrf_token %}
-  <label for="command">Command:</label>
-  <select name="command" required>
-    {% for app, cmds in commands.items %}
-      <optgroup label="{{ app }}">
-        {% for name in cmds %}
-          <option value="{{ name }}">{{ name }}</option>
+  <div id="content-main">
+    <h1>🛠️ Run a Management Command</h1>
+    <form method="post">{% csrf_token %}
+      <label for="command">Command:</label>
+      <select name="command" required>
+        {% for app, cmds in commands.items %}
+          <optgroup label="{{ app }}">
+            {% for name in cmds %}
+              <option value="{{ name }}">{{ name }}</option>
+            {% endfor %}
+          </optgroup>
         {% endfor %}
-      </optgroup>
-    {% endfor %}
-  </select>
-  <br><br>
-  <label for="args">Optional arguments:</label>
-  <input type="text" name="args" style="min-width: 300px;" placeholder="--verbosity 2">
-  <br><br>
-  <button type="submit" class="default">Run</button>
-</form>
+      </select>
+      <br><br>
+
+      <label for="args">Optional arguments:</label>
+      <input type="text" name="args" style="min-width: 300px;" placeholder="--verbosity 2">
+      <br><br>
+
+      <button type="submit" class="default">Run</button>
+    </form>
+  </div>
+{% endblock %}
+
+{% block sidebar %}
+  {{ block.super }}
 {% endblock %}
