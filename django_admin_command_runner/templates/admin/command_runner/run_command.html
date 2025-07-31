@@ -5,7 +5,7 @@
   <div id="content-main">
     <h1>🛠️ Run a Management Command</h1>
 
-    <form id="run-command-form" method="post" action="{% url 'django_admin_command_runner:run_command' %}">
+    <form id="run-command-form" method="post" action="{% url 'admin:commandlog-run' %}">
       {% csrf_token %}
 
       <label for="command">Command:</label>
@@ -34,7 +34,7 @@
 
 {% block extrahead %}
   {{ block.super }}
-  <script src="{% static 'django_admin_command_runner/js/run_command.js' %}"></script>
+  <script src="{% static 'command_runner/js/run.js' %}"></script>
 {% endblock %}
 
 {% block sidebar %}

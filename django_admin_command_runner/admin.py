@@ -1,15 +1,15 @@
 from django.contrib import admin
 from django.urls import path
-from .models import CommandLog
-from .views import CommandRunTerminalView, run_command_form_view
+from django_admin_command_runner.models import CommandLog
+from django_admin_command_runner.views import run_command_form_view
+
 @admin.register(CommandLog)
 class CommandLogAdmin(admin.ModelAdmin):
-    list_display = ("name", "status", "started_at")
     change_list_template = "admin/command_runner/commandlog_changelist.html"
+
     def get_urls(self):
         urls = super().get_urls()
         custom_urls = [
-            path("run/", self.admin_site.admin_view(run_command_form_view), name="run_command_form"),
-            path("run/terminal/", self.admin_site.admin_view(CommandRunTerminalView.as_view()), name="run_command_view"),
+            path("run/", admin.site.admin_view(run_command_form_view), name="commandlog-run"),
         ]
         return custom_urls + urls
