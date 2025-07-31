@@ -1,0 +1,17 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+  <h1>Run Django Command</h1>
+  <form method="post">{% csrf_token %}
+    <label for="command">Command:</label>
+    <select name="command" required>
+      {% for cmd in commands %}
+        <option value="{{ cmd }}">{{ cmd }}</option>
+      {% endfor %}
+    </select>
+    <br><br>
+    <label for="args">Arguments (space-separated):</label><br>
+    <input type="text" name="args" size="80">
+    <br><br>
+    <button type="submit" class="default">Run</button>
+  </form>
+{% endblock %}

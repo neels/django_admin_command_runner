@@ -1,0 +1,13 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools %}
+
+  {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <div >
+        <a href="/admin/django_admin_command_runner/commandlog/run/" class="addlink" >Run Command</a>
+    </div>
+  {{ block.super }}
+{% endblock %}

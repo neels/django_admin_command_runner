@@ -1,0 +1,17 @@
+
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block content %}
+<h1>Run Management Command</h1>
+<form method="post" id="command-form">
+  {% csrf_token %}
+  <label for="command">Enter command:</label>
+  <input type="text" name="command" id="command" style="width: 400px;" />
+  <button type="submit">Run</button>
+</form>
+
+<pre id="output" style="margin-top: 20px; background: #f4f4f4; padding: 10px; border: 1px solid #ccc;"></pre>
+
+<script src="{% static 'command_runner/js/run.js' %}"></script>
+{% endblock %}
