@@ -13,3 +13,20 @@ class CommandLog(models.Model):
     finished_at = models.DateTimeField(null=True, blank=True)
     def __str__(self):
         return f"{self.name} ({self.status})"
+
+
+
+from datetime import timedelta
+
+@property
+def duration(self):
+    if self.started_at and self.finished_at:
+        return self.finished_at - self.started_at
+    return None
+
+@property
+def is_running(self):
+    return self.status == "RUNNING"
+
+CommandLog.duration = duration
+CommandLog.is_running = is_running

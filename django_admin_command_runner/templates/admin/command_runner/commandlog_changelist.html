@@ -1,13 +1,56 @@
+
 {% extends "admin/change_list.html" %}
+{% load static %}
 
 {% block object-tools %}
-
   {{ block.super }}
 {% endblock %}
 
+{% block extrahead %}
+  <script src="{% static 'command_runner/js/live_output.js' %}"></script>
+  <style>
+    .modal { display:none; position:fixed; top:10%; left:10%; width:80%; height:70%; background:#fff; border:1px solid #333; padding:1em; overflow:auto; z-index:9999; }
+    .modal-header { font-weight:bold; margin-bottom:1em; }
+    .modal-close { float:right; cursor:pointer; }
+  </style>
+{% endblock %}
+
 {% block content %}
-    <div >
-        <a href="/admin/django_admin_command_runner/commandlog/run/" class="addlink" >Run Commands</a>
+  <div>
+    <a href="/admin/django_admin_command_runner/commandlog/run/" class="addlink">Run Commands</a>
+  </div>
+
+  <div id="command-modal" class="modal">
+    <div class="modal-header">
+      Command Status: <span id="command-status">...</span>
+      <span class="modal-close" onclick="document.getElementById('command-modal').style.display='none';">[close]</span>
     </div>
+    <div id="live-output" style="white-space: pre-line;"></div>
+  </div>
+
+  <script>
+    function showLiveOutput(logId) {
+      document.getElementById('command-modal').style.display = 'block';
+      document.getElementById('live-output').innerHTML = 'Loading...';
+      pollOutput(logId);
+    }
+  </script>
+
   {{ block.super }}
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const rows = document.querySelectorAll("tr"); 
+      rows.forEach(row => {
+        const cells = row.querySelectorAll("td"); 
+        if (cells.length) {
+          const logId = row.dataset.objectId; 
+          const infoBtn = document.createElement("button"); 
+          infoBtn.textContent = "ℹ️"; 
+          infoBtn.onclick = () => showLiveOutput(logId); 
+          cells[cells.length - 1].appendChild(infoBtn); 
+        }
+      }); 
+    });
+  </script>
 {% endblock %}

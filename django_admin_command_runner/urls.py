@@ -1,10 +1,10 @@
-from django.urls import path
-from .views import CommandRunTerminalView
-from . import views
 
-app_name = "django_admin_command_runner"
+from django.urls import path
+from .views import run_command_form_view, live_output_view, CommandRunTerminalView
+
 
 urlpatterns = [
-    path("run-command/", views.run_command_view, name="run_command_view"),
-    path("run-terminal/", CommandRunTerminalView.as_view(), name="run_command_view"),
+    path("commandlog/run/", run_command_form_view, name="run_command"),
+    path("commandlog/<int:log_id>/live/", live_output_view, name="live_output"),
+    path("run-terminal/", CommandRunTerminalView.as_view(), name="run_terminal"),
 ]

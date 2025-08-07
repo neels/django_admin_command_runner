@@ -5,7 +5,7 @@
   <div id="content-main">
     <h1>🛠️ Run a Management Command</h1>
 
-    <form id="run-command-form" method="post" action="{% url 'admin:commandlog-run' %}">
+    <form id="run-command-form" method="post" action="{% url 'run_command' %}">
       {% csrf_token %}
 
       <label for="command">Command:</label>
