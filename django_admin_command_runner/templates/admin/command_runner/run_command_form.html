@@ -1,17 +1,36 @@
+
 {% extends "admin/base_site.html" %}
+{% load static %}
 {% block content %}
-  <h1>Run Django Command</h1>
-  <form method="post">{% csrf_token %}
-    <label for="command">Command:</label>
-    <select name="command" required>
-      {% for cmd in commands %}
-        <option value="{{ cmd }}">{{ cmd }}</option>
-      {% endfor %}
-    </select>
-    <br><br>
-    <label for="args">Arguments (space-separated):</label><br>
-    <input type="text" name="args" size="80">
-    <br><br>
-    <button type="submit" class="default">Run</button>
-  </form>
+
+<h1>Run a Management Command</h1>
+<form method="post">
+  {% csrf_token %}
+  <label for="command">Select Command:</label>
+  <select name="command" id="command">
+    {% for app, commands in command_choices.items %}
+      <optgroup label="{{ app }}">
+        {% for cmd in commands %}
+          <option value="{{ cmd.name }}" {% if cmd.name == selected_command %}selected{% endif %}>
+            {{ cmd.name }}
+          </option>
+        {% endfor %}
+      </optgroup>
+    {% endfor %}
+  </select>
+
+  <br><br>
+  <label for="args">Args:</label>
+  <input type="text" name="args" id="args" value="{{ args }}" />
+
+  <label for="kwargs">Kwargs (JSON):</label>
+  <input type="text" name="kwargs" id="kwargs" value="{{ kwargs }}" />
+
+  <button type="submit" class="default">Run</button>
+</form>
+
+{% if result %}
+  <h2>Output</h2>
+  <pre>{{ result }}</pre>
+{% endif %}
 {% endblock %}
